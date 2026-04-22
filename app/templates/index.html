@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block title %}Campaigns{% endblock %} {% block
+content %}
+<div class="flex">
+  <h1 style="margin-bottom: 0">Campaigns</h1>
+  <a href="/campaign/new" class="btn btn-primary" style="margin-left: auto"
+    >+ New Campaign</a
+  >
+</div>
+
+<div class="card mt">
+  {% if campaigns %}
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Targets</th>
+        <th>Clicked</th>
+        <th>Submitted</th>
+        <th>Created</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in campaigns %}
+      <tr>
+        <td><strong>{{ c.name }}</strong></td>
+        <td>{{ c.targets|length }}</td>
+        <td>{{ c.targets|selectattr('link_clicked')|list|length }}</td>
+        <td>{{ c.targets|selectattr('creds_submitted')|list|length }}</td>
+        <td>{{ c.created_at.strftime('%d %b %Y') }}</td>
+        <td>
+          <a
+            href="/campaign/{{ c.id }}"
+            class="btn btn-primary"
+            style="padding: 6px 14px"
+            >View</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p style="color: #888; text-align: center; padding: 40px 0">
+    No campaigns yet. <a href="/campaign/new">Create your first one.</a>
+  </p>
+  {% endif %}
+</div>
+{% endblock %}

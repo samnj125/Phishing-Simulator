@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Security Awareness Training</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        background: #fff7ed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .box {
+        background: white;
+        border-radius: 12px;
+        padding: 48px;
+        max-width: 580px;
+        width: 100%;
+        border-top: 6px solid #f97316;
+      }
+      .icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 12px;
+      }
+      p {
+        font-size: 15px;
+        color: #444;
+        line-height: 1.7;
+        margin-bottom: 16px;
+      }
+      .tip {
+        background: #f0fdf4;
+        border-left: 4px solid #22c55e;
+        padding: 16px 20px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #166534;
+      }
+      .tip strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 13px;
+      }
+      h2 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 24px 0 12px;
+      }
+      .footer {
+        margin-top: 32px;
+        font-size: 13px;
+        color: #888;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="icon">&#9888;&#65039;</div>
+      <h1>This was a phishing simulation.</h1>
+      <p>
+        Hi{% if target.name %} <strong>{{ target.name }}</strong>{% endif %},
+        you clicked a simulated phishing link sent by your security team. No
+        real harm was done — your password was not captured.
+      </p>
+      <p>
+        This exercise is designed to help you recognize phishing attacks before
+        a real one happens.
+      </p>
+
+      <h2>How to spot a phishing email</h2>
+      <div class="tip">
+        <strong>Check the sender address</strong>Real companies use their own
+        domain. A "Microsoft" email from gmail.com or a misspelled domain is a
+        red flag.
+      </div>
+      <div class="tip">
+        <strong>Hover before you click</strong>Always hover over links to see
+        the real URL before clicking. If the domain looks wrong, don't click.
+      </div>
+      <div class="tip">
+        <strong>Urgency is a manipulation tactic</strong>Phrases like "Your
+        account will be suspended" or "Act immediately" are designed to make you
+        panic and skip verification.
+      </div>
+      <div class="tip">
+        <strong>When in doubt, go direct</strong>Instead of clicking the link in
+        the email, open your browser and type the website address yourself.
+      </div>
+
+      <div class="footer">
+        This simulation was conducted by your organization's security team.
+      </div>
+    </div>
+  </body>
+</html>

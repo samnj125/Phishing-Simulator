@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block title %}New Campaign{% endblock %} {% block
+content %}
+<h1>New campaign</h1>
+<div class="card">
+  <form method="POST">
+    <div class="form-group">
+      <label>Campaign name</label>
+      <input
+        type="text"
+        name="name"
+        placeholder="e.g. Q3 IT Password Reset Test"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label>Description (optional)</label>
+      <textarea
+        name="description"
+        rows="3"
+        placeholder="Notes about this campaign..."
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create campaign</button>
+    <a
+      href="/"
+      class="btn"
+      style="background: #eee; color: #333; margin-left: 8px"
+      >Cancel</a
+    >
+  </form>
+</div>
+{% endblock %}
