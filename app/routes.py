@@ -3,6 +3,7 @@ from app import db
 from app.models import Campaign, Target, EmailTemplate
 from datetime import datetime
 import io
+from flask import Blueprint, render_template, redirect, url_for, request, jsonify, send_file, flash
 
 
 main = Blueprint('main', __name__)
@@ -65,6 +66,25 @@ def add_target(id):
     target = Target(campaign_id=campaign.id, email=email, name=name)
     db.session.add(target)
     db.session.commit()
+    return redirect(url_for('main.view_campaign', id=id))
+
+
+@main.route('/campaign/<int:id>/send', methods=['POST'])
+def send_campaign(id):
+    campaign = Campaign.query.get_or_404(id)
+
+    if not campaign.targets:
+        flash('Add at least one target before sending.', 'error')
+        return redirect(url_for('main.view_campaign', id=id))
+
+    from app.mailer import send_campaign_emails
+    results = send_campaign_emails(campaign)
+
+    campaign.sent_at = datetime.utcnow()
+    db.session.commit()
+
+    flash(
+        f"Done! Sent: {results['sent']}  Failed: {results['failed']}", 'success')
     return redirect(url_for('main.view_campaign', id=id))
 
 

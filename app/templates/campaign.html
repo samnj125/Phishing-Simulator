@@ -1,100 +1,47 @@
-{% extends "base.html" %} {% block title %}{{ campaign.name }}{% endblock %} {%
-block content %}
-<h1>{{ campaign.name }}</h1>
-{% if campaign.description %}
-<p style="color: #666; margin-top: -12px; margin-bottom: 20px">
-  {{ campaign.description }}
-</p>
-{% endif %}
+{% extends "base.html" %}
+{% block title %}{{ campaign.name }}{% endblock %}
+{% block content %}
 
-<div class="stat-grid">
-  <div class="stat-box">
-    <div class="number">{{ stats.total }}</div>
-    <div class="label">Targets</div>
-  </div>
-  <div class="stat-box">
-    <div class="number">{{ stats.opened }}</div>
-    <div class="label">Opened email</div>
-  </div>
-  <div class="stat-box">
-    <div class="number" style="color: #ef4444">{{ stats.clicked }}</div>
-    <div class="label">Clicked link</div>
-  </div>
-  <div class="stat-box">
-    <div class="number" style="color: #ef4444">{{ stats.submitted }}</div>
-    <div class="label">Submitted creds</div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="flex">
-    <h2 style="margin-bottom: 0">Add target</h2>
-  </div>
-  <form
-    method="POST"
-    action="/campaign/{{ campaign.id }}/add_target"
-    style="display: flex; gap: 12px; margin-top: 16px"
-  >
-    <input
-      type="text"
-      name="name"
-      placeholder="Full name (optional)"
-      style="flex: 1"
-    />
-    <input
-      type="email"
-      name="email"
-      placeholder="email@company.com"
-      required
-      style="flex: 2"
-    />
-    <button type="submit" class="btn btn-primary">Add</button>
+<div class="flex">
+  <h1 style="margin-bottom:0">{{ campaign.name }}</h1>
+  <form method="POST" action="/campaign/{{ campaign.id }}/send" style="margin-left:auto">
+    <button type="submit" class="btn btn-primary"
+      onclick="return confirm('Send phishing emails to all targets?')">
+      Send Campaign
+    </button>
   </form>
 </div>
 
-<div class="card">
-  <h2>Targets</h2>
-  {% if campaign.targets %}
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Sent</th>
-        <th>Opened</th>
-        <th>Clicked</th>
-        <th>Submitted</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for t in campaign.targets %}
-      <tr>
-        <td>{{ t.name or '—' }}</td>
-        <td>{{ t.email }}</td>
-        <td>
-          {% if t.email_sent %}<span class="badge badge-green">Yes</span>{% else
-          %}<span class="badge badge-gray">No</span>{% endif %}
-        </td>
-        <td>
-          {% if t.email_opened %}<span class="badge badge-yellow">Yes</span>{%
-          else %}<span class="badge badge-gray">No</span>{% endif %}
-        </td>
-        <td>
-          {% if t.link_clicked %}<span class="badge badge-red">Yes</span>{% else
-          %}<span class="badge badge-gray">No</span>{% endif %}
-        </td>
-        <td>
-          {% if t.creds_submitted %}<span class="badge badge-red">Yes</span>{%
-          else %}<span class="badge badge-gray">No</span>{% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <p style="color: #888; text-align: center; padding: 24px 0">
-    No targets yet. Add one above.
-  </p>
-  {% endif %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}
+    {% if category == 'success' %}
+      <div style="margin-top:16px;padding:12px 16px;border-radius:6px;background:#dcfce7;color:#16a34a">
+        {{ message }}
+      </div>
+    {% else %}
+      <div style="margin-top:16px;padding:12px 16px;border-radius:6px;background:#fee2e2;color:#dc2626">
+        {{ message }}
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endwith %}
+
+{% if campaign.description %}
+<p style="color:#666;margin-top:8px;margin-bottom:20px">{{ campaign.description }}</p>
+{% endif %}
+
+<div class="stat-grid">
+  <div class="stat-box"><div class="number">{{ stats.total }}</div><div class="label">Targets</div></div>
+  <div class="stat-box"><div class="number">{{ stats.opened }}</div><div class="label">Opened email</div></div>
+  <div class="stat-box"><div class="number" style="color:#ef4444">{{ stats.clicked }}</div><div class="label">Clicked link</div></div>
+  <div class="stat-box"><div class="number" style="color:#ef4444">{{ stats.submitted }}</div><div class="label">Submitted creds</div></div>
 </div>
-{% endblock %}
+
+<div class="card">
+  <h2>Add target</h2>
+  <form method="POST" action="/campaign/{{ campaign.id }}/add_target" style="display:flex;gap:12px;margin-top:16px">
+    <input type="text"  name="name"  placeholder="Full name (optional)" style="flex:1">
+    <input type="email" name="email" placeholder="email@company.com" required style="flex:2">
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+</div
